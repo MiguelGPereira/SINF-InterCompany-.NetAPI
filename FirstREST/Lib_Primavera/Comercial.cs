@@ -123,7 +123,7 @@ namespace FirstREST.Lib_Primavera
         }
 
         //OK!
-        public static Lib_Primavera.Model.Cliente GetCliente(string idCliente, string codEmpresa)
+        public static Lib_Primavera.Model.Cliente GetCliente(string codEmpresa, string idCliente)
         {
             ErpBS objMotor = new ErpBS();
             StdBELista objCli = new StdBELista();
@@ -362,7 +362,7 @@ namespace FirstREST.Lib_Primavera
         }
 
         //OK!
-        public static Model.Fornecedor GetFornecedor(string idFornecedor, string codEmpresa)
+        public static Model.Fornecedor GetFornecedor(string codEmpresa, string idFornecedor)
         {
 
             ErpBS objMotor = new ErpBS();
@@ -440,7 +440,7 @@ namespace FirstREST.Lib_Primavera
         #region Artigo
 
         //OK!
-        public static Lib_Primavera.Model.Artigo GetArtigo(string idArtigo, string codEmpresa)
+        public static Lib_Primavera.Model.Artigo GetArtigo(string codEmpresa, string idArtigo)
         {
 
             StdBELista objArtigo = new StdBELista();
@@ -704,7 +704,7 @@ namespace FirstREST.Lib_Primavera
         }
 
 
-        public static Model.DocCompra GetDocumentoCompra(string numdoc, string codEmpresa, string tipoDeDocumento)
+        public static Model.DocCompra GetDocumentoCompra(string codEmpresa, string tipoDeDocumento, string numDoc)
         {
 
             ErpBS objMotor = new ErpBS();
@@ -718,7 +718,7 @@ namespace FirstREST.Lib_Primavera
             if (PriEngine.InitializeCompany(codEmpresa, "", "") == true)
             {
 
-                objListCab = PriEngine.Engine.Consulta("SELECT id, NumDocExterno, Entidade, DataDoc, NumDoc, TotalMerc, Serie From CabecCompras where TipoDoc='" + tipoDeDocumento + "' and NumDoc='" + numdoc + "'");
+                objListCab = PriEngine.Engine.Consulta("SELECT id, NumDocExterno, Entidade, DataDoc, NumDoc, TotalMerc, Serie From CabecCompras where TipoDoc='" + tipoDeDocumento + "' and NumDoc='" + numDoc + "'");
                     dc.id = objListCab.Valor("id");
                     dc.NumDocExterno = objListCab.Valor("NumDocExterno");
                     dc.Entidade = objListCab.Valor("Entidade");
@@ -871,7 +871,7 @@ namespace FirstREST.Lib_Primavera
         }
 
 
-        public static Model.DocVenda GetDocumentoVenda(string numdoc, string codEmpresa, string tipoDeDocumento)
+        public static Model.DocVenda GetDocumentoVenda(string codEmpresa, string tipoDeDocumento, string numDoc)
         {
             ErpBS objMotor = new ErpBS();
              
@@ -884,7 +884,7 @@ namespace FirstREST.Lib_Primavera
             if (PriEngine.InitializeCompany(codEmpresa, "", "") == true)
             {
                  
-                string st = "SELECT id, Entidade, Data, NumDoc, TotalMerc, Serie From CabecDoc where TipoDoc='"+ tipoDeDocumento +"' and NumDoc='" + numdoc + "'";
+                string st = "SELECT id, Entidade, Data, NumDoc, TotalMerc, Serie From CabecDoc where TipoDoc='"+ tipoDeDocumento +"' and NumDoc='" + numDoc + "'";
                 objListCab = PriEngine.Engine.Consulta(st);
                 dv = new Model.DocVenda();
                 dv.id = objListCab.Valor("id");

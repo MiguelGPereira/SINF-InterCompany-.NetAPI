@@ -20,9 +20,9 @@ namespace FirstREST.Controllers
         }
 
 
-        public Lib_Primavera.Model.DocCompra Get(string id, string codEmpresa, string tipoDeDocumento)
+        public Lib_Primavera.Model.DocCompra Get(string codEmpresa, string tipoDeDocumento, string numDoc)
         {
-            Lib_Primavera.Model.DocCompra doccompra = Lib_Primavera.Comercial.GetDocumentoCompra(id, codEmpresa, tipoDeDocumento);
+            Lib_Primavera.Model.DocCompra doccompra = Lib_Primavera.Comercial.GetDocumentoCompra(codEmpresa, tipoDeDocumento, numDoc);
             if (doccompra == null)
             {
                 throw new HttpResponseException(

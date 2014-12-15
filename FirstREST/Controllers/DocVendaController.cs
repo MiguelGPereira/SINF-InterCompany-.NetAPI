@@ -23,9 +23,9 @@ namespace FirstREST.Controllers
 
 
         // GET api/cliente/5    
-        public Lib_Primavera.Model.DocVenda Get(string id, string codEmpresa, string tipoDeDocumento)
+        public Lib_Primavera.Model.DocVenda Get(string codEmpresa, string tipoDeDocumento, string numDoc)
         {
-            Lib_Primavera.Model.DocVenda docvenda = Lib_Primavera.Comercial.GetDocumentoVenda(id, codEmpresa, tipoDeDocumento);
+            Lib_Primavera.Model.DocVenda docvenda = Lib_Primavera.Comercial.GetDocumentoVenda(codEmpresa, tipoDeDocumento, numDoc);
             if (docvenda == null)
             {
                 throw new HttpResponseException(

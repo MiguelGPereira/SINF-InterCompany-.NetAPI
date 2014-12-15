@@ -21,9 +21,9 @@ namespace FirstREST.Controllers
 
 
         // GET api/cliente/5    
-        public Cliente Get(string idCliente, string codEmpresa)
+        public Cliente Get(string codEmpresa, string idCliente)
         {
-            Lib_Primavera.Model.Cliente cliente = Lib_Primavera.Comercial.GetCliente(idCliente, codEmpresa);
+            Lib_Primavera.Model.Cliente cliente = Lib_Primavera.Comercial.GetCliente(codEmpresa, idCliente);
             if (cliente == null)
             {
                 throw new HttpResponseException(

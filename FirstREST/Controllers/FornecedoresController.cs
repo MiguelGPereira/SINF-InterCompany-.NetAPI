@@ -19,9 +19,9 @@ namespace FirstREST.Controllers
             return Lib_Primavera.Comercial.ListaFornecedores(codEmpresa);
         }
 
-        public Fornecedor Get(string idFornecedor, string codEmpresa)
+        public Fornecedor Get(string codEmpresa, string idFornecedor)
         {
-            Lib_Primavera.Model.Fornecedor fornecedor = Lib_Primavera.Comercial.GetFornecedor(idFornecedor, codEmpresa);
+            Lib_Primavera.Model.Fornecedor fornecedor = Lib_Primavera.Comercial.GetFornecedor(codEmpresa, idFornecedor);
             if (fornecedor == null)
             {
                 throw new HttpResponseException(
