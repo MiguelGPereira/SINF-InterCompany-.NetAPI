@@ -37,10 +37,10 @@ namespace FirstREST.Controllers
         }
 
 
-        public HttpResponseMessage Post(string codEmpresa,Lib_Primavera.Model.Cliente cliente)
+        public HttpResponseMessage Post(string id, Lib_Primavera.Model.Cliente cliente)
         {
             Lib_Primavera.Model.RespostaErro erro = new Lib_Primavera.Model.RespostaErro();
-            erro = Lib_Primavera.Comercial.InsereClienteObj(codEmpresa, cliente);
+            erro = Lib_Primavera.Comercial.InsereClienteObj(id, cliente);
 
             if (erro.Erro == 0)
             {

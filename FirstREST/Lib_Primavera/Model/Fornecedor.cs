@@ -33,5 +33,10 @@ namespace FirstREST.Lib_Primavera.Model
             set;
         }
 
+        public string Moeda
+        {
+            get;
+            set;
+        }
     }
 }

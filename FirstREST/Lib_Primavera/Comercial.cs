@@ -341,7 +341,7 @@ namespace FirstREST.Lib_Primavera
             if (PriEngine.InitializeCompany(codEmpresa, "", "") == true)
             {
 
-                objList = PriEngine.Engine.Consulta("SELECT Fornecedor, Nome, NumContrib, NomeFiscal FROM Fornecedores");
+                objList = PriEngine.Engine.Consulta("SELECT Fornecedor, Nome, NumContrib, NomeFiscal, Moeda FROM Fornecedores");
 
                 while (!objList.NoFim())
                 {
@@ -350,7 +350,7 @@ namespace FirstREST.Lib_Primavera
                     forn.NomeFornecedor = objList.Valor("Nome");
                     forn.NomeFiscal = objList.Valor("NomeFiscal");
                     forn.NumContribuinte = objList.Valor("NumContrib");
-
+                    forn.Moeda = objList.Valor("Moeda");
                     listFornecedores.Add(forn);
                     objList.Seguinte();
 
@@ -378,11 +378,12 @@ namespace FirstREST.Lib_Primavera
                 if (PriEngine.Engine.Comercial.Fornecedores.Existe(idFornecedor) == true)
                 {
 
-                    objForn = PriEngine.Engine.Consulta("SELECT Fornecedor, Nome, NumContrib, NomeFiscal FROM Fornecedores WHERE Fornecedor = '" + idFornecedor + "'");
+                    objForn = PriEngine.Engine.Consulta("SELECT Fornecedor, Nome, NumContrib, NomeFiscal, Moeda FROM Fornecedores WHERE Fornecedor = '" + idFornecedor + "'");
                     myForn.CodFornecedor = objForn.Valor("Fornecedor");
                     myForn.NomeFornecedor = objForn.Valor("Nome");
                     myForn.NomeFiscal = objForn.Valor("NomeFiscal");
                     myForn.NumContribuinte = objForn.Valor("NumContrib");
+                    myForn.Moeda = objForn.Valor("Moeda");
                     return myForn;
                 }
                 else
@@ -413,7 +414,7 @@ namespace FirstREST.Lib_Primavera
                     myForn.set_Nome(forn.NomeFornecedor);
                     myForn.set_NumContribuinte(forn.NumContribuinte);
                     myForn.set_NomeFiscal(forn.NomeFiscal);
-
+                    myForn.set_Moeda(forn.Moeda);
                     PriEngine.Engine.Comercial.Fornecedores.Actualiza(myForn);
 
                     erro.Erro = 0;
@@ -648,7 +649,7 @@ namespace FirstREST.Lib_Primavera
         }
 
         //Só cliente:
-        public static Model.RespostaErro NovoDocumentoCompra(string codEmpresa, string tipoDeDocumento, Model.DocCompra dc)
+        public static Model.RespostaErro NovoDocumentoCompra(string codEmpresa, Model.DocCompra dc)
         {
             Lib_Primavera.Model.RespostaErro erro = new Model.RespostaErro();
             
@@ -679,8 +680,7 @@ namespace FirstREST.Lib_Primavera
                     {
                         myGR.set_Tipodoc("VFA");
                     }*/
-                    myGR.set_Tipodoc(tipoDeDocumento);
-
+                    myGR.set_Tipodoc(dc.tipoDoc);
                     myGR.set_TipoEntidade("F");
                     // Linhas do documento para a lista de linhas
                     lstlindv = dc.LinhasDoc;
@@ -773,7 +773,7 @@ namespace FirstREST.Lib_Primavera
         #region DocVenda
 
        
-        public static Model.RespostaErro NovoDocumentoVenda(string codEmpresa, string tipoDeDocumento, Model.DocVenda dv)
+        public static Model.RespostaErro NovoDocumentoVenda(string codEmpresa, Model.DocVenda dv)
         {
             Lib_Primavera.Model.RespostaErro erro = new Model.RespostaErro();
             GcpBEDocumentoVenda myEnc = new GcpBEDocumentoVenda();
@@ -794,7 +794,7 @@ namespace FirstREST.Lib_Primavera
                     myEnc.set_Entidade(dv.Entidade);
                     myEnc.set_Serie(dv.Serie);
 
-                    myEnc.set_Tipodoc(tipoDeDocumento);
+                    myEnc.set_Tipodoc(dv.tipoDoc);
 
                     myEnc.set_TipoEntidade("C");
                     // Linhas do documento para a lista de linhas

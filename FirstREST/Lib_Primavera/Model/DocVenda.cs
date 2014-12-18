@@ -14,6 +14,12 @@ namespace FirstREST.Lib_Primavera.Model
             set;
         }
 
+        public string tipoDoc
+        {
+            get;
+            set;
+        }
+
         public string Entidade
         {
             get;

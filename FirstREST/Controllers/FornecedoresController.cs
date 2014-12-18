@@ -35,13 +35,10 @@ namespace FirstREST.Controllers
         }
 
 
-        public HttpResponseMessage Post(string codEmpresa, Lib_Primavera.Model.Fornecedor fornecedor)
+        public HttpResponseMessage Post(string id, Lib_Primavera.Model.Fornecedor fornecedor)
         {
-            //TODO 
-            Console.Write("POST FORNECEDOR \n");
-            Console.Write(fornecedor);
             Lib_Primavera.Model.RespostaErro erro = new Lib_Primavera.Model.RespostaErro();
-            erro = Lib_Primavera.Comercial.InsereFornecedor(codEmpresa, fornecedor);
+            erro = Lib_Primavera.Comercial.InsereFornecedor(id, fornecedor);
 
             if (erro.Erro == 0)
             {
