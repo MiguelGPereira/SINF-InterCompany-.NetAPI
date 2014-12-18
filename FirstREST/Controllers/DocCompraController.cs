@@ -34,13 +34,15 @@ namespace FirstREST.Controllers
                 return doccompra;
             }
         }
-        
 
 
-        public HttpResponseMessage Post(Lib_Primavera.Model.DocCompra dc)
+
+        public HttpResponseMessage Post(string codEmpresa, string tipoDeDocumento, Lib_Primavera.Model.DocCompra dc)
         {
+            //Console.Write("Documento de compra: \n");
+           // Console.Write(dc);
             Lib_Primavera.Model.RespostaErro erro = new Lib_Primavera.Model.RespostaErro();
-            erro = Lib_Primavera.Comercial.VGR_New(dc);
+            erro = Lib_Primavera.Comercial.NovoDocumentoCompra(codEmpresa, tipoDeDocumento, dc);
 
             if (erro.Erro == 0)
             {

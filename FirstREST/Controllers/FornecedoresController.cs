@@ -34,5 +34,30 @@ namespace FirstREST.Controllers
             }
         }
 
+
+        public HttpResponseMessage Post(string codEmpresa, Lib_Primavera.Model.Fornecedor fornecedor)
+        {
+            //TODO 
+            Console.Write("POST FORNECEDOR \n");
+            Console.Write(fornecedor);
+            Lib_Primavera.Model.RespostaErro erro = new Lib_Primavera.Model.RespostaErro();
+            erro = Lib_Primavera.Comercial.InsereFornecedor(codEmpresa, fornecedor);
+
+            if (erro.Erro == 0)
+            {
+                var response = Request.CreateResponse(
+                   HttpStatusCode.Created, fornecedor);
+                string uri = Url.Link("DefaultApi", new { CodFornecedor = fornecedor.CodFornecedor });
+                response.Headers.Location = new Uri(uri);
+                return response;
+            }
+
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+
+        }
+
     }
 }

@@ -210,7 +210,7 @@ namespace FirstREST.Lib_Primavera
         }
          
 
-        //NOT NECESSARY FOR NOW
+        //NOT TESTED
         public static Lib_Primavera.Model.RespostaErro DelCliente(string idCliente)
         {
 
@@ -257,7 +257,8 @@ namespace FirstREST.Lib_Primavera
         }
         
 
-        public static Lib_Primavera.Model.RespostaErro InsereClienteObj(Model.Cliente cli, string codEmpresa)
+        //NOT TESTED
+        public static Lib_Primavera.Model.RespostaErro InsereClienteObj(string codEmpresa, Model.Cliente cli)
         {
 
             Lib_Primavera.Model.RespostaErro erro = new Model.RespostaErro();
@@ -394,7 +395,9 @@ namespace FirstREST.Lib_Primavera
 
         }
 
-        public static Lib_Primavera.Model.RespostaErro InsereFornecedorObj(Model.Fornecedor forn, string codEmpresa)
+
+        //NOT TESTED
+        public static Lib_Primavera.Model.RespostaErro InsereFornecedor(string codEmpresa, Model.Fornecedor forn)
         {
 
             Lib_Primavera.Model.RespostaErro erro = new Model.RespostaErro();
@@ -644,9 +647,8 @@ namespace FirstREST.Lib_Primavera
             return listdc;
         }
 
-
-
-        public static Model.RespostaErro VGR_New(Model.DocCompra dc)
+        //Só cliente:
+        public static Model.RespostaErro NovoDocumentoCompra(string codEmpresa, string tipoDeDocumento, Model.DocCompra dc)
         {
             Lib_Primavera.Model.RespostaErro erro = new Model.RespostaErro();
             
@@ -660,14 +662,25 @@ namespace FirstREST.Lib_Primavera
 
             try
             {
-                if (PriEngine.InitializeCompany("EMP1", "", "") == true)
+                if (PriEngine.InitializeCompany(codEmpresa, "", "") == true)
                 {
                     // Atribui valores ao cabecalho do doc
                     //myEnc.set_DataDoc(dv.Data);
                     myGR.set_Entidade(dc.Entidade);
                     myGR.set_NumDocExterno(dc.NumDocExterno);
                     myGR.set_Serie(dc.Serie);
-                    myGR.set_Tipodoc("VGR");
+
+
+                    //ECF - encomenda a fornecedor | VFA - v/ fatura
+                  /*  if (tipoDeDocumento.CompareTo("Encomenda") == 0) {
+                         myGR.set_Tipodoc("ECF"); 
+                    }
+                    else if (tipoDeDocumento.CompareTo("Fatura") == 0)
+                    {
+                        myGR.set_Tipodoc("VFA");
+                    }*/
+                    myGR.set_Tipodoc(tipoDeDocumento);
+
                     myGR.set_TipoEntidade("F");
                     // Linhas do documento para a lista de linhas
                     lstlindv = dc.LinhasDoc;
@@ -759,7 +772,8 @@ namespace FirstREST.Lib_Primavera
 
         #region DocVenda
 
-        public static Model.RespostaErro Encomendas_New(Model.DocVenda dv)
+       
+        public static Model.RespostaErro NovoDocumentoVenda(string codEmpresa, string tipoDeDocumento, Model.DocVenda dv)
         {
             Lib_Primavera.Model.RespostaErro erro = new Model.RespostaErro();
             GcpBEDocumentoVenda myEnc = new GcpBEDocumentoVenda();
@@ -773,13 +787,15 @@ namespace FirstREST.Lib_Primavera
             
             try
             {
-                if (PriEngine.InitializeCompany("EMP1", "", "") == true)
+                if (PriEngine.InitializeCompany(codEmpresa, "", "") == true)
                 {
                     // Atribui valores ao cabecalho do doc
                     //myEnc.set_DataDoc(dv.Data);
                     myEnc.set_Entidade(dv.Entidade);
                     myEnc.set_Serie(dv.Serie);
-                    myEnc.set_Tipodoc("ECL");
+
+                    myEnc.set_Tipodoc(tipoDeDocumento);
+
                     myEnc.set_TipoEntidade("C");
                     // Linhas do documento para a lista de linhas
                     lstlindv = dv.LinhasDoc;
