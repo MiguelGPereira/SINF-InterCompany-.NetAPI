@@ -216,7 +216,7 @@ namespace FirstREST.Lib_Primavera
 
             Lib_Primavera.Model.RespostaErro erro = new Model.RespostaErro();
             GcpBECliente objCli = new GcpBECliente();
-
+      
 
             try
             {
@@ -270,6 +270,8 @@ namespace FirstREST.Lib_Primavera
                 if (PriEngine.InitializeCompany(codEmpresa, "", "") == true)
                 {
 
+                    myCli = PriEngine.Engine.Comercial.Clientes.Consulta("VD");
+                    
                     myCli.set_Cliente(cli.CodCliente);
                     myCli.set_Nome(cli.NomeCliente);
                     myCli.set_NumContribuinte(cli.NumContribuinte);
@@ -512,7 +514,55 @@ namespace FirstREST.Lib_Primavera
                 return null;
         }
 
+        public static Model.RespostaErro NovoArtigo(string codEmpresa, Model.Artigo art)
+        {
 
+            Lib_Primavera.Model.RespostaErro erro = new Model.RespostaErro();
+
+            GcpBEArtigo myArt = new GcpBEArtigo();
+            GcpBEArtigoMoeda myArtMoeda = new GcpBEArtigoMoeda();
+            try
+            {
+                if (PriEngine.InitializeCompany(codEmpresa, "", "") == true)
+                {
+
+                    myArt.set_Artigo(art.CodArtigo);
+                    myArt.set_Descricao(art.DescArtigo);
+                   myArt.set_UnidadeBase(art.UnidadeArtigo);
+                    myArt.set_UnidadeVenda(art.UnidadeArtigo);
+                    myArt.set_IVA(art.IVAArtigo);
+                    myArt.set_StkActual(1000);
+                    myArt.set_MovStock("S");
+
+
+                    myArtMoeda.set_Artigo(art.CodArtigo);
+                    myArtMoeda.set_Moeda(art.MoedaArtigo);
+                    myArtMoeda.set_PVP1(art.PrecoArtigo);
+                    myArtMoeda.set_Unidade(art.UnidadeArtigo);
+
+                    PriEngine.Engine.Comercial.Artigos.Actualiza(myArt);
+                    PriEngine.Engine.Comercial.ArtigosPrecos.Actualiza(myArtMoeda);
+
+                    erro.Erro = 0;
+                    erro.Descricao = "Sucesso";
+                    return erro;
+                }
+                else
+                {
+                    erro.Erro = 1;
+                    erro.Descricao = "Erro ao abrir empresa";
+                    return erro;
+                }
+            }
+
+            catch (Exception ex)
+            {
+                erro.Erro = 1;
+                erro.Descricao = ex.Message;
+                return erro;
+            }
+
+        }
 
         #endregion Artigo;
 
@@ -617,6 +667,7 @@ namespace FirstREST.Lib_Primavera
                     dc.Data = objListCab.Valor("DataDoc");
                     dc.TotalMerc = objListCab.Valor("TotalMerc");
                     dc.Serie = objListCab.Valor("Serie");
+                    dc.tipoDoc = tipoDeDocumento;
                     objListLin = PriEngine.Engine.Consulta("SELECT idCabecCompras, Artigo, Descricao, Quantidade, Unidade, PrecUnit, Desconto1, TotalILiquido, PrecoLiquido, Armazem, Lote from LinhasCompras where IdCabecCompras='" + dc.id + "' order By NumLinha");
                     listlindc = new List<Model.LinhaDocCompra>();
 
@@ -673,13 +724,6 @@ namespace FirstREST.Lib_Primavera
 
 
                     //ECF - encomenda a fornecedor | VFA - v/ fatura
-                  /*  if (tipoDeDocumento.CompareTo("Encomenda") == 0) {
-                         myGR.set_Tipodoc("ECF"); 
-                    }
-                    else if (tipoDeDocumento.CompareTo("Fatura") == 0)
-                    {
-                        myGR.set_Tipodoc("VFA");
-                    }*/
                     myGR.set_Tipodoc(dc.tipoDoc);
                     myGR.set_TipoEntidade("F");
                     // Linhas do documento para a lista de linhas
@@ -795,6 +839,8 @@ namespace FirstREST.Lib_Primavera
                     myEnc.set_Serie(dv.Serie);
 
                     myEnc.set_Tipodoc(dv.tipoDoc);
+                    myEnc.set_ModoPag("CHQ");
+                    myEnc.set_CondPag("1");
 
                     myEnc.set_TipoEntidade("C");
                     // Linhas do documento para a lista de linhas
@@ -858,6 +904,7 @@ namespace FirstREST.Lib_Primavera
                     dv.Data = objListCab.Valor("Data");
                     dv.TotalMerc = objListCab.Valor("TotalMerc");
                     dv.Serie = objListCab.Valor("Serie");
+                    dv.tipoDoc = tipoDeDocumento;
                     objListLin = PriEngine.Engine.Consulta("SELECT idCabecDoc, Artigo, Descricao, Quantidade, Unidade, PrecUnit, Desconto1, TotalILiquido, PrecoLiquido from LinhasDoc where IdCabecDoc='" + dv.id + "' order By NumLinha");
                     listlindv = new List<Model.LinhaDocVenda>();
 
